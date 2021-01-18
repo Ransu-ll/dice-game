@@ -33,7 +33,7 @@ def on_button_pressed_a():
     elif x == 1:
         x = len(history) - 1
     else: 
-        x =- 1
+        x = x - 1
 input.on_button_pressed(Button.A, on_button_pressed_a)
 
 def on_button_pressed_b():
@@ -44,7 +44,7 @@ def on_button_pressed_b():
     elif x == len(history) - 1:
         x = 1
     else:
-        x =+ 1
+        x = x + 1
 input.on_button_pressed(Button.B, on_button_pressed_b)
 
 def check_history():

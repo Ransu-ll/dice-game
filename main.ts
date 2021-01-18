@@ -37,7 +37,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     } else if (x == 1) {
         x = history.length - 1
     } else {
-        x = -1
+        x = x - 1
     }
     
 })
@@ -49,7 +49,7 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     } else if (x == history.length - 1) {
         x = 1
     } else {
-        x = +1
+        x = x + 1
     }
     
 })
