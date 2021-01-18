@@ -13,13 +13,16 @@ input.onGesture(Gesture.Shake, function on_gesture_shake() {
 })
 input.onButtonPressed(Button.AB, function on_button_pressed_ab() {
     let display: number;
-    //  View up to the previous 10 roll history.
+    //  View up to the previous [x] roll history.
     
+    
+    loop_hist = true
     if (check_history()) {
         return
     } else {
         basic.clearScreen()
-        while (true) {
+        pause(200)
+        while (loop_hist) {
             display = history[history.length - x]
             basic.showString("#" + x)
             basic.showNumber(display)
@@ -35,7 +38,7 @@ input.onButtonPressed(Button.A, function on_button_pressed_a() {
     if (check_history()) {
         return
     } else if (x == 1) {
-        x = history.length - 1
+        x = history.length
     } else {
         x = x - 1
     }
@@ -46,12 +49,17 @@ input.onButtonPressed(Button.B, function on_button_pressed_b() {
     
     if (check_history()) {
         return
-    } else if (x == history.length - 1) {
+    } else if (x == history.length) {
         x = 1
     } else {
         x = x + 1
     }
     
+})
+input.onLogoEvent(TouchButtonEvent.Pressed, function on_logo_event_pressed() {
+    //  Escape the AB history loop.
+    
+    loop_hist = false
 })
 function check_history(): boolean {
     //  "Cancels" an action if there is no history. 
@@ -63,10 +71,13 @@ function check_history(): boolean {
     
 }
 
+//  DO NOT TOUCH section
 let x = 1
-//  DO NOT TOUCH! History element default.
+//  History element default.
 let display = null
-//  DO NOT TOUCH! What to display by default.
+//  What to display by default.
+let loop_hist = true
 let history : number[] = []
 //  Explicitly state type of list.
+//  Config
 let hist_len = 10

@@ -10,14 +10,16 @@ def on_gesture_shake():
 input.on_gesture(Gesture.SHAKE, on_gesture_shake)
 
 def on_button_pressed_ab():
-    # View up to the previous 10 roll history.
+    # View up to the previous [x] roll history.
     global x
+    global loop_hist
+    loop_hist = True
     if check_history():
         return
     else: 
         basic.clear_screen()
-        
-        while True:
+        pause(200)
+        while loop_hist:
             display = history[len(history) - x]
             basic.show_string("#" + x)
             basic.show_number(display)
@@ -31,7 +33,7 @@ def on_button_pressed_a():
     if check_history():
         return
     elif x == 1:
-        x = len(history) - 1
+        x = len(history)
     else: 
         x = x - 1
 input.on_button_pressed(Button.A, on_button_pressed_a)
@@ -41,11 +43,17 @@ def on_button_pressed_b():
     global x
     if check_history():
         return
-    elif x == len(history) - 1:
+    elif x == len(history):
         x = 1
     else:
         x = x + 1
 input.on_button_pressed(Button.B, on_button_pressed_b)
+
+def on_logo_event_pressed():
+    # Escape the AB history loop.
+    global loop_hist
+    loop_hist = False
+input.on_logo_event(TouchButtonEvent.PRESSED, on_logo_event_pressed)
 
 def check_history():
     # "Cancels" an action if there is no history. 
@@ -54,8 +62,11 @@ def check_history():
     else:
         return False
 
-x = 1 # DO NOT TOUCH! History element default.
-display = None # DO NOT TOUCH! What to display by default.
-
+# DO NOT TOUCH section
+x = 1 # History element default.
+display = None # What to display by default.
+loop_hist = True
 history: List[number] = [] # Explicitly state type of list.
+
+# Config
 hist_len = 10 # Ensure memory doesn't overflow with this value
